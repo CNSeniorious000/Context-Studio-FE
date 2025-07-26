@@ -11,8 +11,8 @@
 	let totalCount = $state(0)
 
 	function isValidFileType(file: File): boolean {
-		const validTypes = ["text/plain", "text/markdown", "application/pdf", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "application/msword"]
-		return validTypes.includes(file.type) || file.name.match(/\.(txt|md|pdf|docx|doc)$/i) !== null
+		const validExtensions = /\.(txt|md|pdf|docx?|pptx?|xlsx?|jpe?g|png|gif|bmp|webp|tiff?|mp3|wav|ogg|m4a|flac|html?|csv|json|xml|zip|epub)$/i
+		return validExtensions.test(file.name)
 	}
 
 	function isValidFileSize(file: File, maxSizeMB: number = 10): boolean {
