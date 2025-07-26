@@ -4,7 +4,7 @@
 	let { source }: { source: Source } = $props()
 </script>
 
-<div class="text-red">
+<div class={[source.ready ? "text-green" : "text-red"]}>
 	{#if source.ready}
 		{source.text} ({source.tokenCount} tokens)
 	{:else}
