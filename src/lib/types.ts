@@ -5,6 +5,7 @@ interface _Source {
 	text: string
 	title?: string
 	fileName?: string
+	summary?: string
 }
 
 export type Source = (_Source | (Partial<Omit<_Source, "ready">> & { ready: false })) & { id: string }

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Source } from "$lib/types"
 	import SourceItem from "./SourceItem.svelte"
-	import { markitdown, generateTitle } from "$lib/client"
+	import { markitdown, generateTitle, summarize } from "$lib/client"
 	import { countToken } from "$lib/count"
 	import TokenCount from "$lib/TokenCount.svelte"
 
@@ -24,7 +24,7 @@
 		try {
 			source.text = await markitdown(file)
 
-			// 立即计算 token count，不等待 title
+			// 立即计算 token count，不等待 title 和 summary
 			source.tokenCount = await countToken(source.text)
 
 			// 异步生成 title，不阻塞 token 显示
@@ -34,6 +34,16 @@
 				})
 				.catch((error) => {
 					console.error("Failed to generate title:", error)
+				})
+
+			// 异步生成 summary，不阻塞其他操作
+			summarize(source.text)
+				.then((summary) => {
+					source.summary = summary
+					console.log({ ...source })
+				})
+				.catch((error) => {
+					console.error("Failed to generate summary:", error)
 				})
 		} catch (error) {
 			console.error("Failed to process file:", error)
