@@ -128,19 +128,13 @@
 	<MiniMap {sources} />
 {/if}
 
-<div class="mx-auto max-w-4xl p-4">
+<div class="mx-auto max-w-4xl px-4">
 	<div class="mt-4 flex flex-col gap-4">
 		<div class="flex gap-2">
 			<!-- svelte-ignore a11y_no_static_element_interactions -->
-			<div class="w-full border-2 border-gray-300 rounded-lg border-dashed bg-gray-50 p-6 text-center transition duration-300 {dragOver ? 'scale-102 border-blue-500 bg-blue-50' : ''}" {ondragover} {ondragleave} {ondrop}>
-				<div class="flex flex-col items-center gap-1">
-					<div class="text-2xl opacity-70">📁</div>
-					<div class="text-base text-gray-700 font-medium">
-						{processing ? "正在处理文件..." : dragOver ? "释放文件以上传" : "拖拽文件到这里"}
-					</div>
-					<div class="text-xs text-gray-500">
-						{processing ? `已处理 ${processedCount}/${totalCount} 个文件` : "支持的文件格式: .txt, .md, .pdf, .docx 等 (最大 10MB)"}
-					</div>
+			<div class="w-full border-(2 gray-2 dashed) rounded-lg transition duration-300 {dragOver ? 'scale-102 !border-blue-500 bg-blue-50/50 text-blue-5' : 'text-gray bg-gray-50/50'}" {ondragover} {ondragleave} {ondrop}>
+				<div class="min-h-20 flex flex-col items-center justify-center gap-1 text-2xl transition duration-300" class:op-60={!dragOver}>
+					<div class="i-tabler-upload" class:animate-pulse={!dragOver}></div>
 				</div>
 			</div>
 		</div>

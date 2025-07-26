@@ -4,14 +4,26 @@
 
 	let { source }: { source: Source } = $props()
 
-	function getTypeIcon(type: string) {
-		switch (type) {
-			case "file":
-				return "📄"
-			case "text":
-				return "📝"
+	function getTypeIcon(filename: string) {
+		switch (filename.split(".").pop()?.toLowerCase()) {
+			case "md":
+			case "txt":
+			case "pdf":
+			case "doc":
+			case "docx":
+				return "i-fluent-emoji-flat-closed-book"
+			case "xls":
+			case "xlsx":
+			case "ppt":
+			case "pptx":
+				return "i-fluent-emoji-flat-package"
+			case "jpg":
+			case "jpeg":
+			case "png":
+			case "gif":
+				return "i-fluent-emoji-flat-framed-picture"
 			default:
-				return "📄"
+				return "i-fluent-emoji-flat-paperclip"
 		}
 	}
 
@@ -28,13 +40,15 @@
 	}
 </script>
 
-<div class={["rounded-lg bg-white p-3 transition-all duration-300 shadow-sm", source.ready && "bg-green-50"]}>
-	<div class="flex items-center gap-2 text-sm">
-		{#if source.text && source.summary && source.title && source.tokenCount}
-			<div class="flex-shrink-0 text-lg">{getTypeIcon(source.type ?? "file")}</div>
-		{:else}
-			<div class="i-svg-spinners-90-ring-with-bg text-gray-5"></div>
-		{/if}
+<div class={["rounded-lg bg-white p-3 gap-2 transition-all duration-300 shadow-sm", source.ready && "bg-green-50"]}>
+	<div class="flex items-center gap-2">
+		<div class="text-lg grid place-items-center rounded-md size-9" class:bg-gray-50={source.text && source.summary && source.title && source.tokenCount}>
+			{#if source.text && source.summary && source.title && source.tokenCount}
+				<div class={getTypeIcon(source.fileName ?? ".txt")}></div>
+			{:else}
+				<div class="i-svg-spinners-90-ring-with-bg text-gray-5"></div>
+			{/if}
+		</div>
 
 		<div class="min-w-0 flex-1">
 			<div class="truncate text-gray-700 font-medium">
@@ -53,9 +67,9 @@
 				<div class="mt-0.5 flex items-center gap-2 text-xs text-gray-500">
 					<div>
 						{#if !source.text}
-							正在处理文件...
+							Extracting...
 						{:else if !source.title}
-							正在分析文件...
+							Analysing...
 						{/if}
 					</div>
 				</div>
