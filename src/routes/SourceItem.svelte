@@ -1,4 +1,5 @@
 <script lang="ts">
+	import TokenCount from "$lib/TokenCount.svelte"
 	import type { Source } from "$lib/types"
 
 	let { source }: { source: Source } = $props()
@@ -32,20 +33,20 @@
 	</div>
 
 	<div class="mt-1">
-		{#if source.ready}
-			<div class="mb-1 text-sm text-gray-700 leading-relaxed">
+		<div class="mb-1 text-sm text-gray-700 leading-relaxed">
+			{#if source.ready}
 				{(source.text || "").length > 80 ? (source.text || "").slice(0, 80) + "..." : source.text || ""}
-			</div>
-			<div class="flex justify-end">
-				<span class="rounded bg-blue-100 px-2 py-0.5 text-xs text-blue-700 font-medium">
-					{source.tokenCount} tokens
-				</span>
-			</div>
-		{:else}
-			<div class="flex items-center gap-2 text-sm text-gray-500">
-				<div>正在处理...</div>
-				<div class="h-3 w-3 animate-spin border border-gray-200 border-t-blue-500 rounded-full"></div>
-			</div>
-		{/if}
+			{:else}
+				<div class="flex items-center gap-2 text-sm text-gray-500">
+					<div>正在处理...</div>
+					<div class="h-3 w-3 animate-spin border border-gray-200 border-t-blue-500 rounded-full"></div>
+				</div>
+			{/if}
+		</div>
+		<div class="flex justify-end">
+			<span class="text-xs text-blue-700 font-medium">
+				<TokenCount value={source.tokenCount ?? 0} />
+			</span>
+		</div>
 	</div>
 </div>

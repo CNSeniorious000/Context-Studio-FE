@@ -3,6 +3,7 @@
 	import SourceItem from "./SourceItem.svelte"
 	import { markitdown } from "$lib/client"
 	import { countToken } from "$lib/count"
+	import TokenCount from "$lib/TokenCount.svelte"
 
 	let sources = $state<Source[]>([])
 	let dragOver = $state(false)
@@ -98,9 +99,11 @@
 	}
 </script>
 
-<div class="mx-auto max-w-4xl p-4">
-	<h1 class="text-2xl font-bold">Context Manager</h1>
+<h3 class="text-right text-xl">
+	<TokenCount fancy value={sources.reduce((acc, source) => acc + (source.tokenCount ?? 0), 0)} />
+</h3>
 
+<div class="mx-auto max-w-4xl p-4">
 	<div class="mt-4 flex flex-col gap-4">
 		<div class="flex gap-2">
 			<!-- svelte-ignore a11y_no_static_element_interactions -->
