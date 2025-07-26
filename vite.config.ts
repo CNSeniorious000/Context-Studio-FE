@@ -4,5 +4,6 @@ import { defineConfig } from "vite"
 import wasm from "vite-plugin-wasm"
 
 export default defineConfig({
-	plugins: [sveltekit(), UnoCSS(), wasm()]
+	plugins: [sveltekit(), UnoCSS(), wasm()],
+	worker: { format: "es" }
 })
