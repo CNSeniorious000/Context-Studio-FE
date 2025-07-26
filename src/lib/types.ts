@@ -1,7 +1,7 @@
 interface _Source {
 	ready: true
 	type: string
-	tokenCount: string
+	tokenCount: number
 	text: string
 }
 
