@@ -1,8 +1,18 @@
-import { get_encoding } from "tiktoken"
+import { get_encoding, init } from "tiktoken/init"
 
-const enc = get_encoding("cl100k_base")
+export async function initTokenizer() {
+	const wasmModule = await import("tiktoken/tiktoken_bg.wasm?url")
+	const wasmResponse = await fetch(wasmModule.default)
+	const wasmBytes = await wasmResponse.arrayBuffer()
 
-export function countToken(text: string) {
+	await init((imports) => WebAssembly.instantiate(wasmBytes, imports))
+
+	return get_encoding("cl100k_base")
+}
+
+const enc = await initTokenizer()
+
+export async function countToken(text: string) {
 	return enc.encode(text).length
 }
 
