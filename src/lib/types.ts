@@ -3,6 +3,7 @@ interface _Source {
 	type: string
 	tokenCount: number
 	text: string
+	title?: string
 	fileName?: string
 }
 

@@ -38,7 +38,12 @@
 <div class="rounded-lg bg-white p-3 transition-all duration-300 {source.ready ? 'bg-green-50' : ''} shadow-sm">
 	<div class="mb-2 flex items-center gap-2 text-sm">
 		<span class="text-lg">{getTypeIcon(source.type ?? "file")}</span>
-		<span class="flex-1 truncate text-gray-700 font-medium">{getDisplayName()}</span>
+		<div class="flex-1">
+			<div class="truncate text-gray-700 font-medium">{getDisplayName()}</div>
+			{#if source.ready && source.title}
+				<div class="mt-0.5 truncate text-xs text-gray-500">{source.title}</div>
+			{/if}
+		</div>
 		<div class="i-svg-spinners-180-ring-with-bg text-gray-4 transition-opacity duration-500" class:op-0={source.ready}></div>
 	</div>
 

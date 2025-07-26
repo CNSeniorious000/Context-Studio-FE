@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Source } from "$lib/types"
 	import SourceItem from "./SourceItem.svelte"
-	import { markitdown } from "$lib/client"
+	import { markitdown, generateTitle } from "$lib/client"
 	import { countToken } from "$lib/count"
 	import TokenCount from "$lib/TokenCount.svelte"
 
@@ -23,7 +23,10 @@
 	async function processFile(source: Source, file: File) {
 		try {
 			source.text = await markitdown(file)
-			source.tokenCount = await countToken(source.text)
+			// 同时请求 title 和 token count
+			const [title, tokenCount] = await Promise.all([generateTitle(source.text), countToken(source.text)])
+			source.title = title
+			source.tokenCount = tokenCount
 		} catch (error) {
 			console.error("Failed to process file:", error)
 			source.text = `Error processing file: ${file.name}`
