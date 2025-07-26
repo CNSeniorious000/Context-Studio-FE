@@ -35,33 +35,36 @@
 	}
 </script>
 
-<div class="rounded-lg bg-white p-3 transition-all duration-300 {source.ready ? 'bg-green-50' : ''} shadow-sm">
-	<div class="mb-2 flex items-center gap-2 text-sm">
-		<span class="text-lg">{getTypeIcon(source.type ?? "file")}</span>
-		<div class="flex-1">
-			<div class="truncate text-gray-700 font-medium">{getDisplayName()}</div>
-			{#if source.ready && source.title}
-				<div class="mt-0.5 truncate text-xs text-gray-500">{source.title}</div>
-			{/if}
-		</div>
-		<div class="i-svg-spinners-180-ring-with-bg text-gray-4 transition-opacity duration-500" class:op-0={source.ready}></div>
-	</div>
-
-	<div class="mt-1">
-		<div class="mb-1 text-sm text-gray-700 leading-relaxed">
-			{#if source.ready}
-				{(source.text || "").length > 80 ? (source.text || "").slice(0, 80) + "..." : source.text || ""}
+<div class={["rounded-lg bg-white p-3 transition-all duration-300 shadow-sm", source.ready && "bg-green-50"]}>
+	<div class="flex items-center gap-2 text-sm">
+		<span class="flex-shrink-0 text-lg">{getTypeIcon(source.type ?? "file")}</span>
+		<div class="min-w-0 flex-1">
+			<div class="truncate text-gray-700 font-medium">
+				{#if source.ready && source.title}
+					{source.title}
+				{:else}
+					{getDisplayName()}
+				{/if}
+			</div>
+			{#if source.title && source.text && source.tokenCount}
+				<div class="mt-0.5 truncate text-xs text-gray-500">
+					{(source.text || "").slice(0, 100)}{(source.text || "").length > 100 ? "..." : ""}
+				</div>
 			{:else}
-				<div class="flex items-center gap-2 text-sm text-gray-500">
-					<div>正在处理...</div>
-					<div class="h-3 w-3 animate-spin border border-gray-200 border-t-blue-500 rounded-full"></div>
+				<div class="mt-0.5 flex items-center gap-2 text-xs text-gray-500">
+					<div>
+						{#if !source.text}
+							正在处理文件...
+						{:else if !source.title}
+							正在分析文件...
+						{/if}
+					</div>
 				</div>
 			{/if}
 		</div>
-		<div class="flex justify-end">
-			<span class="rounded-full px-2 py-1 text-xs font-medium {getTokenColorClass(source.tokenCount ?? 0)}">
-				<TokenCount value={source.tokenCount ?? 0} />
-			</span>
-		</div>
+
+		<span class={["rounded-full transition-opacity px-2 py-1 text-xs font-medium flex-shrink-0", source.tokenCount ? getTokenColorClass(source.tokenCount) : "opacity-0"]}>
+			<TokenCount value={source.tokenCount ?? 0} />
+		</span>
 	</div>
 </div>

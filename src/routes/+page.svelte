@@ -127,9 +127,6 @@
 					<div class="text-xs text-gray-500">
 						{processing ? `已处理 ${processedCount}/${totalCount} 个文件` : "支持的文件格式: .txt, .md, .pdf, .docx 等 (最大 10MB)"}
 					</div>
-					{#if processing}
-						<div class="mt-1 h-4 w-4 animate-spin border border-gray-200 border-t-blue-500 rounded-full"></div>
-					{/if}
 				</div>
 			</div>
 		</div>
