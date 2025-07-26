@@ -16,7 +16,7 @@
 			</h2>
 			<h1 class="text-xl text-#f48529 tracking-widest font-orbix uppercase">Context Manager</h1>
 		</header>
-		<main class="bg-white rounded-lg p-4 shadow-sm">
+		<main class="rounded-lg bg-white p-4 shadow-sm">
 			{@render children()}
 		</main>
 	</div>

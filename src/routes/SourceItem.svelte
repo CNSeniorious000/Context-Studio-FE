@@ -39,7 +39,7 @@
 	<div class="mb-2 flex items-center gap-2 text-sm">
 		<span class="text-lg">{getTypeIcon(source.type ?? "file")}</span>
 		<span class="flex-1 truncate text-gray-700 font-medium">{getDisplayName()}</span>
-		<div class="transition-opacity duration-500 text-gray-4 i-svg-spinners-180-ring-with-bg" class:op-0={source.ready}></div>
+		<div class="i-svg-spinners-180-ring-with-bg text-gray-4 transition-opacity duration-500" class:op-0={source.ready}></div>
 	</div>
 
 	<div class="mt-1">
@@ -54,7 +54,7 @@
 			{/if}
 		</div>
 		<div class="flex justify-end">
-			<span class="text-xs font-medium px-2 py-1 rounded-full {getTokenColorClass(source.tokenCount ?? 0)}">
+			<span class="rounded-full px-2 py-1 text-xs font-medium {getTokenColorClass(source.tokenCount ?? 0)}">
 				<TokenCount value={source.tokenCount ?? 0} />
 			</span>
 		</div>
