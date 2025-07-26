@@ -17,13 +17,13 @@
 
 	function getTokenColorClass(tokenCount: number) {
 		if (tokenCount < 1000) {
-			return "text-green-600 bg-green-50"
+			return "text-green-6 bg-green-50"
 		} else if (tokenCount < 10000) {
-			return "text-cyan-600 bg-cyan-50"
+			return "text-cyan-6 bg-cyan-50"
 		} else if (tokenCount <= 50000) {
-			return "text-yellow-600 bg-yellow-50"
+			return "text-yellow-6 bg-yellow-50"
 		} else {
-			return "text-pink-600 bg-pink-50"
+			return "text-pink-6 bg-pink-50"
 		}
 	}
 </script>

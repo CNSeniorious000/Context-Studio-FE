@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { Source } from "$lib/types"
 	import SourceItem from "./SourceItem.svelte"
+	import MiniMap from "./MiniMap.svelte"
 	import { markitdown, generateTitle, summarize } from "$lib/client"
 	import { countToken } from "$lib/count"
 	import TokenCount from "$lib/TokenCount.svelte"
@@ -120,9 +121,12 @@
 	}
 </script>
 
-<h3 class="text-right text-xl">
-	<TokenCount fancy value={sources.reduce((acc, source) => acc + (source.tokenCount ?? 0), 0)} />
-</h3>
+{#if sources.length}
+	<h3 class="text-right text-xl">
+		<TokenCount fancy value={sources.reduce((acc, source) => acc + (source.tokenCount ?? 0), 0)} />
+	</h3>
+	<MiniMap {sources} />
+{/if}
 
 <div class="mx-auto max-w-4xl p-4">
 	<div class="mt-4 flex flex-col gap-4">
