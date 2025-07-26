@@ -1,7 +1,6 @@
 import type { countToken as count } from "./worker"
+import Worker from "./worker?worker"
 
 import { wrap } from "comlink"
 
-const worker = new Worker(new URL("./worker", import.meta.url), { type: "module" })
-
-export const countToken = wrap<typeof count>(worker)
+export const countToken = wrap<typeof count>(new Worker())
