@@ -15,13 +15,6 @@
 		}
 	}
 
-	function getDisplayName() {
-		if (source.fileName) {
-			return source.fileName
-		}
-		return source.id.slice(0, 8)
-	}
-
 	function getTokenColorClass(tokenCount: number) {
 		if (tokenCount < 1000) {
 			return "text-green-600 bg-green-50"
@@ -37,15 +30,21 @@
 
 <div class={["rounded-lg bg-white p-3 transition-all duration-300 shadow-sm", source.ready && "bg-green-50"]}>
 	<div class="flex items-center gap-2 text-sm">
-		<span class="flex-shrink-0 text-lg">{getTypeIcon(source.type ?? "file")}</span>
+		{#if source.text && source.summary && source.title && source.tokenCount}
+			<div class="flex-shrink-0 text-lg">{getTypeIcon(source.type ?? "file")}</div>
+		{:else}
+			<div class="i-svg-spinners-90-ring-with-bg text-gray-5"></div>
+		{/if}
+
 		<div class="min-w-0 flex-1">
 			<div class="truncate text-gray-700 font-medium">
 				{#if source.ready && source.title}
 					{source.title}
 				{:else}
-					{getDisplayName()}
+					{source.fileName ?? source.id.slice(0, 8)}
 				{/if}
 			</div>
+
 			{#if source.title && source.text && source.tokenCount}
 				<div class="mt-0.5 truncate text-xs text-gray-500">
 					{(source.text || "").slice(0, 100)}{(source.text || "").length > 100 ? "..." : ""}

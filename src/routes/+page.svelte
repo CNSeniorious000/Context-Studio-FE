@@ -128,7 +128,7 @@
 	<div class="mt-4 flex flex-col gap-4">
 		<div class="flex gap-2">
 			<!-- svelte-ignore a11y_no_static_element_interactions -->
-			<div class="mb-3 border-2 border-gray-300 rounded-lg border-dashed bg-gray-50 p-6 text-center transition-all duration-300 {dragOver ? 'scale-105 border-blue-500 bg-blue-50' : ''}" {ondragover} {ondragleave} {ondrop}>
+			<div class="w-full border-2 border-gray-300 rounded-lg border-dashed bg-gray-50 p-6 text-center transition duration-300 {dragOver ? 'scale-102 border-blue-500 bg-blue-50' : ''}" {ondragover} {ondragleave} {ondrop}>
 				<div class="flex flex-col items-center gap-1">
 					<div class="text-2xl opacity-70">📁</div>
 					<div class="text-base text-gray-700 font-medium">
