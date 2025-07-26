@@ -23,10 +23,18 @@
 	async function processFile(source: Source, file: File) {
 		try {
 			source.text = await markitdown(file)
-			// 同时请求 title 和 token count
-			const [title, tokenCount] = await Promise.all([generateTitle(source.text), countToken(source.text)])
-			source.title = title
-			source.tokenCount = tokenCount
+
+			// 立即计算 token count，不等待 title
+			source.tokenCount = await countToken(source.text)
+
+			// 异步生成 title，不阻塞 token 显示
+			generateTitle(source.text)
+				.then((title) => {
+					source.title = title
+				})
+				.catch((error) => {
+					console.error("Failed to generate title:", error)
+				})
 		} catch (error) {
 			console.error("Failed to process file:", error)
 			source.text = `Error processing file: ${file.name}`
