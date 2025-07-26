@@ -21,15 +21,25 @@
 		}
 		return source.id.slice(0, 8)
 	}
+
+	function getTokenColorClass(tokenCount: number) {
+		if (tokenCount < 1000) {
+			return "text-green-600 bg-green-50"
+		} else if (tokenCount < 10000) {
+			return "text-cyan-600 bg-cyan-50"
+		} else if (tokenCount <= 50000) {
+			return "text-yellow-600 bg-yellow-50"
+		} else {
+			return "text-pink-600 bg-pink-50"
+		}
+	}
 </script>
 
-<div class="border border-gray-200 rounded-lg bg-white p-3 transition-all duration-300 {source.ready ? 'border-green-500 bg-green-50' : ''}">
+<div class="rounded-lg bg-white p-3 transition-all duration-300 {source.ready ? 'bg-green-50' : ''} shadow-sm">
 	<div class="mb-2 flex items-center gap-2 text-sm">
 		<span class="text-lg">{getTypeIcon(source.type ?? "file")}</span>
 		<span class="flex-1 truncate text-gray-700 font-medium">{getDisplayName()}</span>
-		<span class="rounded px-2 py-0.5 text-xs font-medium {source.ready ? 'bg-green-100 text-green-700' : 'bg-orange-100 text-orange-700'}">
-			{source.ready ? "✓ 已完成" : "⏳ 处理中"}
-		</span>
+		<div class="transition-opacity duration-500 text-gray-4 i-svg-spinners-180-ring-with-bg" class:op-0={source.ready}></div>
 	</div>
 
 	<div class="mt-1">
@@ -44,7 +54,7 @@
 			{/if}
 		</div>
 		<div class="flex justify-end">
-			<span class="text-xs text-blue-700 font-medium">
+			<span class="text-xs font-medium px-2 py-1 rounded-full {getTokenColorClass(source.tokenCount ?? 0)}">
 				<TokenCount value={source.tokenCount ?? 0} />
 			</span>
 		</div>
