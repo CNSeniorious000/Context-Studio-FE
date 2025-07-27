@@ -74,9 +74,7 @@
 
 		if (validFiles.length === 0) return
 
-		processing = true
 		processedCount = 0
-		totalCount = validFiles.length
 
 		const processingPromises = validFiles.map((file) => {
 			const newSource: Source = $state({
