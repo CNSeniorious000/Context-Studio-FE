@@ -42,7 +42,7 @@
 
 <div class={["rounded-lg bg-white p-3 gap-2 transition-all duration-300 shadow-sm", source.ready && "bg-green-50"]}>
 	<div class="flex items-center gap-2">
-		<div class="text-lg grid place-items-center rounded-md size-9" class:bg-gray-50={source.text && source.summary && source.title && source.tokenCount}>
+		<div class="grid size-9 place-items-center rounded-md text-lg" class:bg-gray-50={source.text && source.summary && source.title && source.tokenCount}>
 			{#if source.text && source.summary && source.title && source.tokenCount}
 				<div class={getTypeIcon(source.fileName ?? ".txt")}></div>
 			{:else}

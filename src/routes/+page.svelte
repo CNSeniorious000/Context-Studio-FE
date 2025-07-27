@@ -5,12 +5,11 @@
 	import { markitdown, generateTitle, summarize } from "$lib/client"
 	import { countToken } from "$lib/count"
 	import TokenCount from "$lib/TokenCount.svelte"
+	import Copy from "$lib/Copy.svelte"
 
 	let sources = $state<Source[]>([])
 	let dragOver = $state(false)
-	let processing = $state(false)
 	let processedCount = $state(0)
-	let totalCount = $state(0)
 
 	function isValidFileType(file: File): boolean {
 		const validExtensions = /\.(txt|md|pdf|docx?|pptx?|xlsx?|jpe?g|png|gif|bmp|webp|tiff?|mp3|wav|ogg|m4a|flac|html?|csv|json|xml|zip|epub)$/i
@@ -122,7 +121,7 @@
 </script>
 
 {#if sources.length}
-	<h3 class="text-right text-xl">
+	<h3 class="mx-4 my-3 text-right text-xl">
 		<TokenCount fancy value={sources.reduce((acc, source) => acc + (source.tokenCount ?? 0), 0)} />
 	</h3>
 	<MiniMap {sources} />
@@ -132,7 +131,7 @@
 	<div class="mt-4 flex flex-col gap-4">
 		<div class="flex gap-2">
 			<!-- svelte-ignore a11y_no_static_element_interactions -->
-			<div class="w-full border-(2 gray-2 dashed) rounded-lg transition duration-300 {dragOver ? 'scale-102 !border-blue-500 bg-blue-50/50 text-blue-5' : 'text-gray bg-gray-50/50'}" {ondragover} {ondragleave} {ondrop}>
+			<div class="w-full border-(2 gray-2 dashed) rounded-lg transition duration-300 {dragOver ? 'scale-102 bg-blue-50/50 text-blue-5 !border-blue-500' : 'bg-gray-50/50 text-gray'}" {ondragover} {ondragleave} {ondrop}>
 				<div class="min-h-20 flex flex-col items-center justify-center gap-1 text-2xl transition duration-300" class:op-60={!dragOver}>
 					<div class="i-tabler-upload" class:animate-pulse={!dragOver}></div>
 				</div>
@@ -146,3 +145,9 @@
 		</div>
 	</div>
 </div>
+
+{#if sources.length}
+	<div class="absolute bottom-0 left-1/2 translate-y-15 -translate-x-1/2">
+		<Copy text={() => sources.map(({ text, title }) => `<document title=${JSON.stringify(title)}>\n${text}\n</document>`).join("\n\n")} />
+	</div>
+{/if}

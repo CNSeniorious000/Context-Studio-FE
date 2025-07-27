@@ -16,7 +16,7 @@
 			</h2>
 			<h1 class="animate-(fade-in delay-100) text-xl text-#f48529 tracking-widest font-orbix uppercase transition duration-500 group-hover:duration-1000 !group-hover:text-gray-3">Conte<span class="!text-#f48529">x</span>t Studio</h1>
 		</header>
-		<main class="rounded-lg bg-white p-4 shadow-(gray-4/10 lg)">
+		<main class="relative rounded-lg bg-white p-4 shadow-(gray-4/10 lg)">
 			{@render children()}
 		</main>
 	</div>
