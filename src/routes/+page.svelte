@@ -95,9 +95,7 @@
 		} catch (error) {
 			console.error("文件处理过程中发生错误:", error)
 		} finally {
-			processing = false
 			processedCount = 0
-			totalCount = 0
 		}
 	}
 
@@ -114,9 +112,64 @@
 	async function ondrop(event: DragEvent) {
 		event.preventDefault()
 		dragOver = false
+
+		// 检查是否有文本数据
+		const textData = event.dataTransfer?.getData("text/plain")
+		if (textData && textData.trim()) {
+			await handleTextAsText(textData.trim())
+			return
+		}
+
+		// 处理文件
 		const files = event.dataTransfer?.files
-		if (!files) return
-		await handleFiles(files)
+		if (files && files.length > 0) {
+			await handleFiles(files)
+		}
+	}
+
+	async function handleTextAsText(text: string) {
+		const newSource: Source = $state({
+			id: crypto.randomUUID(),
+			type: "text",
+			ready: false
+		})
+		sources.push(newSource)
+
+		try {
+			newSource.text = text
+			newSource.tokenCount = await countToken(text)
+
+			// 异步生成 title
+			generateTitle(text)
+				.then((title) => {
+					newSource.title = title
+				})
+				.catch((error) => {
+					console.error("Failed to generate title:", error)
+				})
+
+			// 异步生成 summary
+			summarize(text)
+				.then((summary) => {
+					newSource.summary = summary
+				})
+				.catch((error) => {
+					console.error("Failed to generate summary:", error)
+				})
+		} catch (error) {
+			console.error("Failed to process text:", error)
+			newSource.text = `Error processing text`
+		} finally {
+			;(newSource as Source).ready = true
+		}
+	}
+
+	async function onpaste(event: ClipboardEvent) {
+		const text = event.clipboardData?.getData("text/plain")
+		if (text && text.trim()) {
+			event.preventDefault()
+			await handleTextAsText(text.trim())
+		}
 	}
 </script>
 
@@ -145,6 +198,8 @@
 		</div>
 	</div>
 </div>
+
+<svelte:window {onpaste} />
 
 {#if sources.length}
 	<div class="absolute bottom-0 left-1/2 translate-y-15 -translate-x-1/2">
